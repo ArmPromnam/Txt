@@ -1,4 +1,4 @@
-import stremlist as st
+import stremlit as st
 
 st.title("website Devalope using Python")
 st.header("website Devalope using Python")
