@@ -23,6 +23,7 @@ dx=pd.DataFrame(
     {
         "col1":dt['sepat.length'].sum(),
         "col2":dt['sepat.width'].sum(),
+        "col3":dt['sepat.length'].sum()
     }
 )
 st.bar_chart(dx,x='col1',y='col2',color='col3')
