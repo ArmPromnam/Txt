@@ -7,4 +7,4 @@ st.subheader("ArmPromnam")
 st.image("12.jpg")
 
 dt=pd.read_csv('./data/iris.csv')
-dt.head(10)
+st.write(dt.head(10))
