@@ -1,76 +1,88 @@
-import streamlit as st
-import pandas as pd
+# ตัวแปรสำหรับเก็บสัญลักษณ์ของผู้เล่น
+PLAYER_1 = "X"
+PLAYER_2 = "O"
 
+# ตัวแปรสำหรับเก็บกระดานเกม
+board = [
+    [" ", " ", " "],
+    [" ", " ", " "],
+    [" ", " ", " "],
+]
 
-st.title("Website Devalope using Python")
-st.header("Website Devalope using Python")
-st.subheader("ArmPromnam")
-st.image("12.gif")
+# ฟังก์ชั่นสำหรับแสดงกระดานเกม
+def print_board(board):
+    for row in board:
+        print(" ".join(row))
 
-dt=pd.read_csv('iris.csv')
+# ฟังก์ชั่นสำหรับตรวจสอบว่าช่องว่างบนกระดานเกมว่างหรือไม่
+def is_valid_move(board, position):
+    row, col = position
+    return 0 <= row < len(board) and 0 <= col < len(board[0]) and board[row][col] == " "
 
-st.subheader("ข้อมูลดอกไม้ Iris")
-st.write(dt.head(10))
+# ฟังก์ชั่นสำหรับเล่นเกม
+def play_game(board):
+    # กำหนดผู้เล่นเริ่มต้น
+    current_player = PLAYER_1
 
-st.subheader("สถิติข้อมูลดอกไม้ Iris")
-st.write('ผลรวม')
-cl1,cl2,cl3,cl4=st.columns(4)
-cl1.write(dt['sepal.length'].sum())
-cl2.write(dt['sepal.width'].sum())
-cl3.write(dt['petal.length'].sum())
-cl4.write(dt['petal.width'].sum())
+    # วนลูปจนกว่าเกมจะจบ
+    while True:
+        # แสดงกระดานเกม
+        print_board(board)
 
-st.write("กราฟแท่ง")
-a=dt['sepal.length'].sum()
-b=dt['sepal.width'].sum()
-c=dt['petal.length'].sum()
-d=dt['petal.width'].sum()
-dx=[a,b,c,d]
-cx=pd.DataFrame(dx,index=["sepal.length", "sepal.width", "petal.length","petal.width"])
-st.bar_chart(cx)
+        # ขอตำแหน่งจากผู้เล่น
+        position = input("ผู้เล่น {} เลือกตำแหน่ง (1-9): ".format(current_player))
+        position = int(position) - 1
 
-st.write('ค่าเฉลี่ย')
-cl11,cl12,cl13,cl14=st.columns(4)
-cl11.write(dt['sepal.length'].mean())
-cl12.write(dt['sepal.width'].mean())
-cl13.write(dt['petal.length'].mean())
-cl14.write(dt['petal.width'].mean())
+        # ตรวจสอบว่าตำแหน่งถูกต้อง
+        if not is_valid_move(board, position):
+            print("ตำแหน่งไม่ถูกต้อง กรุณาลองใหม่")
+            continue
 
-st.write("Area_Chart")
-a=dt['sepal.length'].mean()
-b=dt['sepal.width'].mean()
-c=dt['petal.length'].mean()
-d=dt['petal.width'].mean()
-dxt=[a,b,c,d]
-cxx=pd.DataFrame(dxt,index=["sepal.length", "sepal.width", "petal.length","petal.width"])
-st.area_chart(cxx)
+        # วางสัญลักษณ์บนกระดานเกม
+        board[position // 3][position % 3] = current_player
 
+        # ตรวจสอบว่าผู้เล่นชนะ
+        if is_winning(board, current_player):
+            print_board(board)
+            print("ผู้เล่น {} ชนะ!".format(current_player))
+            break
 
-st.write('ค่ามากที่สุด')
-cl21,cl22,cl23,cl24=st.columns(4)
-cl21.write(dt['sepal.length'].max())
-cl22.write(dt['sepal.width'].max())
-cl23.write(dt['petal.length'].max())
-cl24.write(dt['petal.width'].max())
+        # เปลี่ยนผู้เล่น
+        current_player = PLAYER_1 if current_player == PLAYER_2 else PLAYER_2
 
-import numpy as np
-import matplotlib.pyplot as plt
-labels = ['Men', 'Women','','']
-sizes = [35,25,15,25]
-explode = (0, 0.1,0,0) 
-fig1, ax1 = plt.subplots()
-ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
-        shadow=True, startangle=90)
-st.pyplot(fig1)
+        # ตรวจสอบว่าเกมเสมอ
+        if is_board_full(board):
+            print_board(board)
+            print("เกมเสมอ")
+            break
 
+# ฟังก์ชั่นสำหรับตรวจสอบว่าผู้เล่นชนะ
+def is_winning(board, player):
+    # ตรวจสอบแนวตั้ง
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col] == player:
+            return True
+    
+    # ตรวจสอบแนวนอน
+    for row in range(3):
+        if board[row][0] == board[row][1] == board[row][2] == player:
+            return True
+    
+    # ตรวจสอบแนวทแยง
+    if board[0][0] == board[1][1] == board[2][2] == player:
+        return True
+    if board[0][2] == board[1][1] == board[2][0] == player:
+        return True
 
-st.write('ค่าน้อยที่สุด')
-cl31,cl32,cl33,cl34=st.columns(4)
-cl31.write(dt['sepal.length'].min())
-cl32.write(dt['sepal.width'].min())
-cl33.write(dt['petal.length'].min())
-cl34.write(dt['petal.width'].min())
+    return False
 
-st.write("Line_Chart")
-cc=[3,8,1,10]
-st.line_chart(cc)
+# ฟังก์ชั่นสำหรับตรวจสอบว่ากระดานเกมเต็ม
+def is_board_full(board):
+    for row in board:
+        for cell in row:
+            if cell == " ":
+                return False
+    return True
+
+# เริ่มเล่นเกม
+play_game(board)
