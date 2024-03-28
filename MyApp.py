@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 
-st.title("website Devalope using Python")
-st.header("website Devalope using Python")
+st.title("Website Devalope using Python")
+st.header("Website Devalope using Python")
 st.subheader("ArmPromnam")
 st.image("12.gif")
 
@@ -18,4 +18,6 @@ cl1.write(dt['sepal.length'].sum())
 cl2.write(dt['sepal.width'].sum())
 cl3.write(dt['sepal.length'].sum())
 cl4.write(dt['sepal.width'].sum())
+
+
 
