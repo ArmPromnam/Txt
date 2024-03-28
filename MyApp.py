@@ -18,7 +18,4 @@ cl1.write(dt['sepal.length'].sum())
 cl2.write(dt['sepal.width'].sum())
 cl3.write(dt['sepal.length'].sum())
 cl4.write(dt['sepal.width'].sum())
-st.write('ค่าเฉลี่ย')
-st.write('ผลรวม')
-st.write('ผลรวม')
 
