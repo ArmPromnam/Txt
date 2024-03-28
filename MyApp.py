@@ -22,7 +22,7 @@ cl4.write(dt['sepal.width'].sum())
 dx=pd.DataFrame(
     {
         "col1":dt['sepat.length'].sum()
-        "col1":dt['sepat.width'].sum()
+        "col2":dt['sepat.width'].sum()
     }
 )
 st.bar_chart(dx,x='col1',y='col2',color='col3')
