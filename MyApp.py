@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import random
+
 
 st.title("Website Devalope using Python")
 st.header("Website Devalope using Python")
@@ -74,86 +74,3 @@ cl34.write(dt['petal.width'].min())
 st.write("Line_Chart")
 cc=[3,8,1,10]
 st.line_chart(cc)
-
-# ตั้งค่าเริ่มต้น
-WIDTH = 400  # ความกว้างของหน้าจอ
-HEIGHT = 300  # ความสูงของหน้าจอ
-DELAY = 100  # ความเร็วของเกม (หน่วยมิลลิวินาที)
-
-# ตัวแปรสำหรับเกม
-head_x = 100  # ตำแหน่งเริ่มต้น X ของหัวงู
-head_y = 100  # ตำแหน่งเริ่มต้น Y ของหัวงู
-body = [(head_x - 10, head_y), (head_x - 20, head_y)]  # ลำตัวของงู
-direction = 0  # ทิศทางของงู (0: ขวา, 1: ลง, 2: ซ้าย, 3: ขึ้น)
-food_x = random.randint(0, WIDTH - 10)  # ตำแหน่ง X ของอาหาร
-food_y = random.randint(0, HEIGHT - 10)  # ตำแหน่ง Y ของอาหาร
-
-# ฟังก์ชั่นสำหรับวาดหน้าจอ
-def draw():
-  global head_x, head_y, body, direction, food_x, food_y
-
-  # ล้างหน้าจอ
-  fill(0, 0, 0)
-
-  # วาดตัวงู
-  for segment in body:
-    rect(segment[0], segment[1], 10, 10)
-
-  # วาดหัวงู
-  rect(head_x, head_y, 10, 10, fill=(255, 0, 0))
-
-  # วาดอาหาร
-  rect(food_x, food_y, 10, 10, fill=(0, 255, 0))
-
-# ฟังก์ชั่นสำหรับอัปเดตเกม
-def update():
-  global head_x, head_y, body, direction, food_x, food_y
-
-  # อัปเดตตำแหน่งหัวงู
-  if direction == 0:
-    head_x += 10
-  elif direction == 1:
-    head_y += 10
-  elif direction == 2:
-    head_x -= 10
-  elif direction == 3:
-    head_y -= 10
-
-  # ตรวจสอบว่าหัวงูชนกับอาหาร
-  if head_x == food_x and head_y == food_y:
-    # กินอาหาร
-    body.append((head_x, head_y))
-    food_x = random.randint(0, WIDTH - 10)
-    food_y = random.randint(0, HEIGHT - 10)
-  else:
-    # ลบส่วนหางของงู
-    body.pop(0)
-
-  # ตรวจสอบว่าหัวงูชนกับตัวเองหรือขอบหน้าจอ
-  if head_x < 0 or head_x > WIDTH - 10 or head_y < 0 or head_y > HEIGHT - 10 or (head_x, head_y) in body:
-    # เกมโอเวอร์
-    print("Game Over!")
-    exit()
-
-# ฟังก์ชั่นสำหรับรับ input จากผู้ใช้
-def on_key_press(key):
-  global direction
-
-  if key == "right":
-    direction = 0
-  elif key == "down":
-    direction = 1
-  elif key == "left":
-    direction = 2
-  elif key == "up":
-    direction = 3
-
-# เริ่มเกม
-setup(WIDTH, HEIGHT, DELAY)
-draw()
-
-# ลูปหลักของเกม
-while True:
-  update()
-  draw()
-  on_key_press(get_key_press())
