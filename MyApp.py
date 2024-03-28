@@ -18,6 +18,9 @@ cl1.write(dt['sepal.length'].sum())
 cl2.write(dt['sepal.width'].sum())
 cl3.write(dt['sepal.length'].sum())
 cl4.write(dt['sepal.width'].sum())
+cols=['sepat.length','sepal.width','sepat.length']
+dx=dt[cols]
+st.bar_chart(dx,x='sepat.length',y='sepal.width',color='sepat.length')
 
 st.write('ค่าเฉลี่ย')
 cl1,cl2,cl3,cl4=st.columns(4)
